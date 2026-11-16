@@ -48,6 +48,14 @@ With your permission, the plugin opens the services' dashboards in your Chrome (
 
 Free-tier limits change often; the plugin checks current limits before it relies on them.
 
+## Privacy
+
+- The plugin has no server of its own. It collects, stores and retains no data.
+- It reads your project's files on your machine to plan the setup.
+- With your permission, it sends your app's code and config to the services you pick in the table above (for example Cloud Run, MongoDB Atlas, Cloudflare). Each service's own privacy policy applies to that data.
+- API keys and tokens go straight into your secrets manager. The plugin never writes them to chat, tracked files, logs or screenshots.
+- It does not read or store personal data such as names, emails or addresses.
+
 ## License
 
 MIT
