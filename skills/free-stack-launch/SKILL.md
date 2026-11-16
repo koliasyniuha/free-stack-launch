@@ -43,7 +43,7 @@ Free-tier limits change often. Before you tell the user any limit, or write one 
 - Tell the user that free quotas are often per account or per billing account, not per app. If an existing account already runs another app, both apps share the quota. Check the current terms.
 - Never suggest extra accounts to get more free quota. That usually breaks the provider's terms.
 - App stores: explain that a personal developer account shows the user's legal name in the store, and new personal Google Play accounts need the closed test in step 8. An organization account avoids both but needs a D-U-N-S number (weeks). The user decides.
-- Ask the user to save every login in a password manager, turn on 2FA, and set their personal email as the recovery address. They create the accounts themselves (3.3).
+- Ask the user to save every login in a password manager, turn on 2FA, and set their personal email as the recovery address. You start each new signup in the browser (3.4), and the user does the sensitive parts (3.3).
 
 ### 2. Check tools
 Check what is installed and install what is missing, after asking the user:
@@ -60,6 +60,7 @@ For every step, use an MCP server or a CLI/API first, because those are repeatab
 **3.1 Ask for browser permission once, up front.** Explain in plain words:
 - What: "I'll open the services' dashboards in your browser and click through the setup for you: create the projects, copy the keys straight into your secrets manager, and change the settings."
 - Which sites, listed by name.
+- Signups: for each new account in the account plan, you open the signup page and fill in the product email, the user's name and the app name. Ask for this once, now, for all listed sites.
 - What stays with the user (3.3).
 - That they see every action live in the browser window and can stop it at any moment.
 Go ahead only after an explicit yes. If the answer is no, or the browser can't be connected, switch to guided mode: give the link for each step and say what to click.
@@ -72,13 +73,17 @@ Go ahead only after an explicit yes. If the answer is no, or the browser can't b
 If the browser tool asks permission per site, suggest allowing only the listed sites, one site per session. Never suggest auto-approving all sites.
 
 **3.3 What the user does themselves.** Stop and hand over at each of these:
-- Signup forms, passwords, 2FA codes and CAPTCHAs. On a login page, pause; the user signs in in that tab and says "continue".
+- Passwords, 2FA codes, CAPTCHAs and phone verification. On a login page, pause; the user signs in in that tab and says "continue".
+- OAuth consent screens ("Sign in with Google / GitHub", "Authorize this app"). The user approves them.
+- The final click that creates an account, when that click also accepts the terms.
 - Card or payment details, and any billing confirmation.
 - Accepting terms of service or developer agreements (cloud ToS, Apple Developer Program, Google Play). These are legal agreements in the user's name.
 - Identity verification (Apple and Google Play ID checks, D-U-N-S).
 - Clicking verification links in their email.
 
 **3.4 What you do in the browser:**
+- New accounts (from the account plan): open the signup page and fill in the product email, the user's name, the organization or app name, the free plan and the region. Then hand over for the steps in 3.3. If the service sends a verification email, ask the user to click the link in the product inbox and say "continue". Never invent personal data such as a phone number, an address or a company ID; ask for it.
+- Existing accounts: after the user signs in, create a new organization or project for the app, and invite the product email as a second owner.
 - Create projects and resources on the free plan, in an EU region where there is a choice.
 - Create least-privilege API tokens scoped to this one project. Put each value straight into the secrets manager through its CLI (e.g. `doppler secrets set NAME`, value on stdin). Never echo it in chat, files, logs, screenshots or GIFs.
 - Change settings: budget alerts, GitHub push protection, DNS records in Cloudflare.

@@ -49,7 +49,7 @@ With your permission, the skill opens the services' dashboards in your browser a
 
 ## What you still do yourself
 
-- Create the accounts (signups have captchas, card checks and ToS). The plugin gives you the links and tells you what to pick.
+- Finish each new signup. Give the plugin a product email for the app: it opens each signup page and fills in the form. You type the password, solve the CAPTCHA, accept the terms and click the verification link in the product inbox. Where you already have an account, it creates a new project inside it instead.
 - Log in through each CLI. Tokens are entered in the terminal, not in chat.
 - Approve every step that costs money or can't be undone. Nothing paid is created without your OK.
 
