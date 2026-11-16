@@ -34,6 +34,16 @@ Free-tier limits change often. Before you tell the user any limit, or write one 
 - If there is a mobile client, ask whether the user wants it in the App Store, Google Play or both, and whether they already have developer accounts there.
 - Work out which needs from the table the app really has. Ask only about what the code doesn't answer, at most 3 short questions (e.g. "Do users upload photos?", "Do you send emails?").
 - Present the proposed stack as a short list and get a yes before you create anything.
+- Agree on an account plan before any signup (see below).
+
+**Account plan.** Ask which of the proposed services the user already has an account with. Then propose this, and get a yes:
+- Use one product email for the app, not the user's personal email: a new mailbox, or an address on the app's domain that forwards to the user (e.g. Cloudflare Email Routing). It keeps alerts in one place and lets the user hand the app over later without handing over personal accounts.
+- Where the user already has an account and the service has organizations or projects (GitHub, Google Cloud, MongoDB Atlas, Cloudflare, Sentry, PostHog), create a new organization or project for the app inside it, and invite the product email as a second owner. Don't create a second account.
+- Where one account is in effect one app (e.g. Resend, UptimeRobot, Doppler), create the account with the product email.
+- Tell the user that free quotas are often per account or per billing account, not per app. If an existing account already runs another app, both apps share the quota. Check the current terms.
+- Never suggest extra accounts to get more free quota. That usually breaks the provider's terms.
+- App stores: explain that a personal developer account shows the user's legal name in the store, and new personal Google Play accounts need the closed test in step 8. An organization account avoids both but needs a D-U-N-S number (weeks). The user decides.
+- Ask the user to save every login in a password manager, turn on 2FA, and set their personal email as the recovery address. They create the accounts themselves (3.3).
 
 ### 2. Check tools
 Check what is installed and install what is missing, after asking the user:
@@ -142,7 +152,7 @@ Setup, kept within free tiers:
 
 ### 6. STACK.md
 Write `STACK.md` at the repo root:
-- One row per service: what it does, dashboard link, the env var names it uses (never the values), the free limit with the date it was checked, and the sign that it's time to upgrade, with the next plan and its price.
+- One row per service: what it does, dashboard link, the account that owns it (email and organization or project name, never passwords), the env var names it uses (never the values), the free limit with the date it was checked, and the sign that it's time to upgrade, with the next plan and its price.
 - Upgrade order: domain → server → database.
 - If staging exists: its URLs and resource names next to production's, and the release flow (staging → check → production).
 - For mobile apps: store accounts, bundle ID / package name, where the signing credentials are kept (EAS or keystore location, never in git), and each store's status.
