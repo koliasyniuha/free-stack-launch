@@ -30,9 +30,22 @@ claude plugin install free-stack-launch@free-stack-launch
 
 Then, in your project, tell Claude Code: "deploy a free stack for my app".
 
+### Codex, Cursor and other agents
+
+The skill uses the open [Agent Skills](https://agentskills.io) format, so any agent that reads `SKILL.md` can use it. Copy the skill folder into `~/.agents/skills/`, which both Codex and Cursor read:
+
+```bash
+git clone --depth 1 https://github.com/koliasyniuha/free-stack-launch.git /tmp/free-stack-launch && mkdir -p ~/.agents/skills && cp -R /tmp/free-stack-launch/skills/free-stack-launch ~/.agents/skills/
+```
+
+Restart the agent, then tell it: "deploy a free stack for my app". To use it in one project only, copy the folder into that project's `.agents/skills/` instead.
+
 ## Browser setup
 
-With your permission, the plugin opens the services' dashboards in your Chrome (Claude in Chrome extension, `claude --chrome`) and clicks through the steps that have no CLI: creating projects, generating API tokens straight into your secrets manager, and changing settings. You watch it live and can stop it at any time. Logins, payments, legal agreements and ID checks always stay with you.
+With your permission, the skill opens the services' dashboards in your browser and clicks through the steps that have no CLI: creating projects, generating API tokens straight into your secrets manager, and changing settings. You watch it live and can stop it at any time. Logins, payments, legal agreements and ID checks always stay with you.
+
+- **Claude Code:** uses the Claude in Chrome extension (`claude --chrome`).
+- **Other agents:** use their own browser tool. If the agent has none, the skill switches to guided mode: it gives you the link for each step and says what to click.
 
 ## What you still do yourself
 

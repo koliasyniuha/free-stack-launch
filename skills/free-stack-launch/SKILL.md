@@ -48,13 +48,18 @@ CLI flags change. Before each provisioning command, run `<cli> <command> --help`
 For every step, use an MCP server or a CLI/API first, because those are repeatable and leave a record. Use the browser only for steps that have no CLI or API, typically: creating the Sentry and PostHog projects, R2 API tokens, the Resend domain, UptimeRobot, the Doppler service token, and the store consoles.
 
 **3.1 Ask for browser permission once, up front.** Explain in plain words:
-- What: "I'll open the services' dashboards in your Chrome and click through the setup for you: create the projects, copy the keys straight into your secrets manager, and change the settings."
+- What: "I'll open the services' dashboards in your browser and click through the setup for you: create the projects, copy the keys straight into your secrets manager, and change the settings."
 - Which sites, listed by name.
 - What stays with the user (3.3).
-- That they see every action live in the Chrome window and can stop it at any moment.
+- That they see every action live in the browser window and can stop it at any moment.
 Go ahead only after an explicit yes. If the answer is no, or the browser can't be connected, switch to guided mode: give the link for each step and say what to click.
 
-**3.2 Connect the browser.** This needs the Claude in Chrome extension and a session started with `claude --chrome` (or turned on with `/chrome`). Check that `/chrome` shows the connection as enabled. Claude Code asks permission per site. Suggest allowing only the listed sites, one site per session, and never suggest auto-approving all sites.
+**3.2 Connect the browser.** Use the browser tool that your agent offers, and check that it works before you start:
+- Claude Code: this needs the Claude in Chrome extension and a session started with `claude --chrome` (or turned on with `/chrome`). Check that `/chrome` shows the connection as enabled.
+- Other agents (Codex, Cursor and others): use their own browser tool if they have one.
+- If you cannot control a browser, use guided mode from 3.1.
+
+If the browser tool asks permission per site, suggest allowing only the listed sites, one site per session. Never suggest auto-approving all sites.
 
 **3.3 What the user does themselves.** Stop and hand over at each of these:
 - Signup forms, passwords, 2FA codes and CAPTCHAs. On a login page, pause; the user signs in in that tab and says "continue".
