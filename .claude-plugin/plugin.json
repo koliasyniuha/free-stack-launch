@@ -1,0 +1,9 @@
+{
+  "name": "free-stack-launch",
+  "displayName": "Free Stack Launch",
+  "description": "Launch a vibe-coded app on free tiers: server, database, files, email, errors, analytics, uptime and landing, an optional staging env, and App Store / Google Play publishing. Records when to start paying.",
+  "version": "0.3.0",
+  "author": { "name": "Mykola" },
+  "license": "MIT",
+  "keywords": ["deploy", "free-tier", "vibe-coding", "cloud-run", "mongodb", "cloudflare", "expo", "app-store", "google-play"]
+}

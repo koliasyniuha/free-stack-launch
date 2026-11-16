@@ -1,0 +1,12 @@
+{
+  "name": "free-stack-launch",
+  "description": "Free-tier launch stack for vibe-coded apps",
+  "owner": { "name": "Mykola" },
+  "plugins": [
+    {
+      "name": "free-stack-launch",
+      "source": "./",
+      "description": "Deploy your app's backend on free tiers and publish the mobile app to the stores"
+    }
+  ]
+}
