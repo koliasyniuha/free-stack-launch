@@ -9,7 +9,7 @@ Goal: take an app that works locally (often vibe-coded) and give it a production
 
 Talk to the user in their language. Assume they may not be a programmer: explain each step in one plain sentence, and never paste a wall of config at them.
 
-## Default stack (change it when the app's needs differ)
+## Default stack (a menu, not a checklist: set up only what the fit check in step 1 selects)
 
 | Need | Default | Fallback |
 |---|---|---|
@@ -32,8 +32,24 @@ Free-tier limits change often. Before you tell the user any limit, or write one 
 ### 1. Inspect the app
 - Read the repo: language, framework, whether it has a mobile client (and which: Expo/React Native, Flutter, native Swift/Kotlin), how it talks to its backend, and which env vars it already expects.
 - If there is a mobile client, ask whether the user wants it in the App Store, Google Play or both, and whether they already have developer accounts there.
-- Work out which needs from the table the app really has. Ask only about what the code doesn't answer, at most 3 short questions (e.g. "Do users upload photos?", "Do you send emails?").
-- Present the proposed stack as a short list and get a yes before you create anything.
+- Run the fit check below. Ask only about what the code doesn't answer, at most 3 short questions (e.g. "Do users upload photos?", "Should the app send emails?").
+- Present the result as a table: service, include or skip, and the reason with the file that shows it. Get a yes before you create anything.
+
+**Fit check.** Decide each row of the default stack from evidence in the code, not by habit. A service with no clear need is skipped. Rules:
+- If the code already uses a provider for a need (e.g. Supabase, Firebase, Vercel), keep it. Don't replace working parts with the defaults.
+- **API server:** only if the repo has backend code that must run on a server (API routes, websockets, background jobs). A static site, or a client that talks only to a hosted backend, needs none.
+- **Database:** only if the app must keep data across users or devices. Data that lives only on the device needs none. Match the code: an SQL ORM or Postgres driver means Neon or Supabase, not MongoDB.
+- **Files:** only if users upload files, or the app stores generated files.
+- **Email:** only if the app sends email: signup confirmation, password reset, magic links, receipts or notifications. Skip it when the auth provider already sends these emails (e.g. Supabase Auth, Firebase Auth).
+- **Errors + logs:** when there is a server or a public app with real users. Skip for a static page.
+- **Product analytics:** only if the user wants to measure usage. Ask, and mention that analytics may need a cookie banner in the EU.
+- **Uptime:** only if there is a server or a public URL that must stay up.
+- **Landing / static web:** if the app has no public web page yet and needs one. A mobile app needs one for its privacy policy URL (step 8).
+- **Domain:** only if the app sends email from its own address or the user wants a custom URL. Otherwise the free subdomains are enough.
+- **Code:** always, unless the repo is already on a git host.
+- **Secrets manager:** only if the app has secrets (API keys, DB passwords). A static site with none skips it.
+
+Skipped services go into STACK.md with the sign that it is time to add them (step 6).
 - Agree on an account plan before any signup (see below).
 
 **Account plan.** Ask which of the proposed services the user already has an account with. Then propose this, and get a yes:
@@ -108,7 +124,7 @@ Explain why in one line: the code is backed up, every change can be rolled back,
 - Optional, ask first: GitHub Actions to deploy on push (`main` → production, and a `staging` branch → staging if there is one). Private repos get a limited number of free Actions minutes a month; check the current figure. Deploy credentials go in GitHub Actions secrets, or are synced there by the secrets manager.
 
 ### 3c. Secrets manager
-Explain why in one line: there is one place to change a key, nothing is lost if the laptop dies, and keys don't leak through git, chat or screenshots.
+Skip this step if the fit check found no secrets. Otherwise, explain why in one line: there is one place to change a key, nothing is lost if the laptop dies, and keys don't leak through git, chat or screenshots.
 - Default: Doppler (free Developer plan). Alternative: Infisical (open source, free plan, can be self-hosted). Check their current free limits before you recommend one.
 - Create a project for the app with one config per environment: `dev`, `prd`, and `stg` if staging exists.
 - Every key created in step 4 goes straight into the secrets manager, never into chat or a tracked file. Have the user paste a value in the terminal (`doppler secrets set NAME`) whenever it comes from a dashboard.
@@ -118,7 +134,7 @@ Explain why in one line: there is one place to change a key, nothing is lost if 
 - The mobile app still gets only public keys (step 8a). Secrets stay on the server side.
 
 ### 4. Provision and wire
-Go through the services one at a time. Check each one before starting the next.
+Set up only the services the user agreed to in step 1. Go through them one at a time, and check each one before you start the next.
 - **Database:** create a free cluster, a DB user with a generated password, and network access. Store the connection string in the secrets manager as `DATABASE_URL` / `MONGODB_URI`.
 - **Server:** add a Dockerfile if one is missing, deploy to Cloud Run in an EU region near the user, pass env vars as Cloud Run env vars or secrets, and run a health check (`curl <url>/health` or a known endpoint).
 - **Files:** create an R2 bucket and S3-compatible keys. Wire uploads with presigned URLs so files never pass through the server.
@@ -158,6 +174,7 @@ Setup, kept within free tiers:
 ### 6. STACK.md
 Write `STACK.md` at the repo root:
 - One row per service: what it does, dashboard link, the account that owns it (email and organization or project name, never passwords), the env var names it uses (never the values), the free limit with the date it was checked, and the sign that it's time to upgrade, with the next plan and its price.
+- Skipped services: one line each, with why it was skipped and the sign that it is time to add it (e.g. "Email: not needed now. Add it when you add password reset or notifications.").
 - Upgrade order: domain → server → database.
 - If staging exists: its URLs and resource names next to production's, and the release flow (staging → check → production).
 - For mobile apps: store accounts, bundle ID / package name, where the signing credentials are kept (EAS or keystore location, never in git), and each store's status.
@@ -165,7 +182,7 @@ Write `STACK.md` at the repo root:
 - Where the code and the secrets live: the GitHub repo link, and the secrets-manager project and config names (never the values).
 
 ### 7. Final check
-- Hit the deployed API, read and write the DB through it, upload and fetch a file, send a test email, and confirm the test error appears in Sentry and the test event in PostHog.
+- Test each service that was set up, and only those: hit the deployed API, read and write the DB through it, upload and fetch a file, send a test email, and confirm the test error appears in Sentry and the test event in PostHog.
 - Report what works, what didn't, and what the user still has to do by hand.
 
 ### 8. Publish the mobile app (only if the repo has a mobile client)

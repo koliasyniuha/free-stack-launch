@@ -4,6 +4,8 @@ A Claude Code plugin that takes an app working on your machine (often vibe-coded
 
 ## What it sets up
 
+It reads your code first and sets up only what your app needs. No emails sent? No email service. No uploads? No file storage. Each skipped service goes into `STACK.md` with the sign that it is time to add it.
+
 | Need | Default (free tier) | Fallback |
 |---|---|---|
 | API server | Google Cloud Run | Render |
