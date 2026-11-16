@@ -41,7 +41,7 @@
   "@type": "FAQPage",
   "mainEntity": [
     { "@type": "Question", "name": "Is Free Stack Launch really free?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The plugin is free and MIT-licensed. Every service it sets up has a free tier. Only the app stores cost money: Apple Developer Program is $99 per year and Google Play Console is $25 once." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The plugin is free and MIT-licensed, and every service it sets up has a free tier. The plugin never charges you. If you publish a mobile app, Apple ($99 per year) and Google ($25 once) charge their own store fees to every developer. You pay them directly." } },
     { "@type": "Question", "name": "Does it need my passwords or card details?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. You create the accounts and sign in yourself. Tokens go straight into your secrets manager from the terminal, never into chat." } },
     { "@type": "Question", "name": "Which apps does it work with?",
@@ -246,6 +246,9 @@
   .price-row .amt { text-align: right; font: 600 44px/1 Geist, sans-serif; letter-spacing: -0.04em; white-space: nowrap; }
   .price-row .amt small { display: block; font: 500 11.5px/1.4 "Geist Mono", monospace; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: 6px; }
   .price-row .amt.zero { color: var(--accent); }
+  .paid-to { display: inline-block; vertical-align: 3px; margin-left: 8px; font: 500 11px/1 "Geist Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-2); border-radius: 999px; padding: 4px 8px; }
+  .price-note { margin: 18px 0 0; font-size: 14px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+  .price-note svg { flex: none; margin-top: 3px; }
 
   /* control band */
   .band { background: var(--band); color: var(--band-ink); border-block: 1px solid var(--band-line); }
@@ -499,15 +502,16 @@
       <div class="sec-head">
         <div>
           <p class="kicker">Pricing</p>
-          <h2>The full price list.</h2>
+          <h2>The plugin costs $0. Always.</h2>
         </div>
-        <p class="sec-lead">The plugin and your backend are free. Only the app stores charge.</p>
+        <p class="sec-lead">It has no paid plan and never asks you to pay. The only fees below are the store fees that Apple and Google charge every app developer, with or without this plugin.</p>
       </div>
       <div class="prices">
-        <div class="price-row"><div><h3>Your backend</h3><p>Every service above runs on its free tier until your app outgrows it.</p></div><div class="amt zero">$0<small>per month</small></div></div>
-        <div class="price-row"><div><h3>Apple Developer Program</h3><p>Needed to publish on the App Store. The plugin walks you through store setup, builds and review for Expo, Flutter, Swift and Kotlin apps.</p></div><div class="amt">$99<small>per year</small></div></div>
-        <div class="price-row"><div><h3>Google Play Console</h3><p>New personal accounts need a closed test with 12 testers for 14 days first.</p></div><div class="amt">$25<small>one time</small></div></div>
+        <div class="price-row"><div><h3>Free Stack Launch + your backend</h3><p>The plugin is free and MIT-licensed. Every service it sets up runs on its free tier until your app outgrows it.</p></div><div class="amt zero">$0<small>per month</small></div></div>
+        <div class="price-row"><div><h3>Apple Developer Program <span class="paid-to">Paid to Apple</span></h3><p>Apple charges this to every developer who publishes on the App Store. You pay Apple directly. Only needed if you ship an iOS app.</p></div><div class="amt">$99<small>per year</small></div></div>
+        <div class="price-row"><div><h3>Google Play Console <span class="paid-to">Paid to Google</span></h3><p>Google charges this to every developer who publishes on Google Play. You pay Google directly. Only needed if you ship an Android app.</p></div><div class="amt">$25<small>one time</small></div></div>
       </div>
+      <p class="price-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>Store fees go straight to Apple and Google, not to this plugin. A web-only app needs neither. New personal Google Play accounts also need a closed test with 12 testers for 14 days.</p>
     </div>
   </section>
 
@@ -538,7 +542,7 @@
         <p>Something else? <a href="https://github.com/koliasyniuha/free-stack-launch/issues">Open an issue on GitHub</a>.</p>
       </div>
       <div>
-        <details open><summary>Is it really free?</summary><p>The plugin is free and MIT-licensed. Every service it sets up has a free tier. Only the app stores cost money: Apple Developer Program is $99 per year and Google Play Console is $25 once. Some providers, such as Cloud Run and R2, ask for a card, and the plugin sets budget alerts there.</p></details>
+        <details open><summary>Is it really free?</summary><p>The plugin is free and MIT-licensed. Every service it sets up has a free tier. The plugin never charges you. If you publish a mobile app, Apple and Google charge their own store fees, as they do for every developer: $99 per year for the App Store and $25 once for Google Play. You pay them directly. Some providers, such as Cloud Run and R2, ask for a card, and the plugin sets budget alerts there.</p></details>
         <details><summary>Does it need my passwords or card details?</summary><p>No. You create the accounts and sign in yourself. Tokens go straight into your secrets manager from the terminal, never into chat.</p></details>
         <details><summary>Which apps does it work with?</summary><p>Any app with a backend that fits in a container, such as Node, Python or Go servers. For mobile it supports Expo / React Native, Flutter and native Swift or Kotlin apps.</p></details>
         <details><summary>What happens when I outgrow the free tiers?</summary><p>Check <code>STACK.md</code> in your repo. It lists each free limit, the sign that it is time to upgrade, and the next plan with its price.</p></details>
