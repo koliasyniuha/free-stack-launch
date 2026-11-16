@@ -24,7 +24,7 @@ At the end it writes a `STACK.md` in your repo: what lives where, each free limi
 ## Install
 
 ```bash
-claude plugin marketplace add <your-github-user>/free-stack-launch
+claude plugin marketplace add koliasyniuha/free-stack-launch
 claude plugin install free-stack-launch@free-stack-launch
 ```
 
