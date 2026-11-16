@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Stack Launch – Claude Code plugin to deploy your app on free tiers</title>
-<meta name="description" content="Free Stack Launch is a Claude Code plugin that deploys a vibe-coded app on free tiers: Cloud Run, MongoDB Atlas, Cloudflare R2, Resend, Sentry, PostHog, UptimeRobot. It also publishes mobile apps to the App Store and Google Play.">
+<meta name="description" content="Free Stack Launch is a Claude Code plugin that deploys a vibe-coded app on free tiers: Cloud Run, MongoDB Atlas, Cloudflare R2, Resend, Sentry, PostHog, UptimeRobot. It also publishes mobile apps to the App Store and Google Play. Works in Claude Code, Codex and Cursor.">
 <link rel="canonical" href="https://koliasyniuha.github.io/free-stack-launch/">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="9ZHmKZPZX926mzuiTzUZ7XJoFJhrLwCkPGZRMRi2JsE" />
@@ -26,7 +26,7 @@
   "name": "Free Stack Launch",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "macOS, Linux, Windows",
-  "description": "Claude Code plugin that deploys a vibe-coded app on free tiers (Cloud Run, MongoDB Atlas, Cloudflare R2, Resend, Sentry, PostHog, UptimeRobot, Doppler) and publishes mobile apps to the App Store and Google Play.",
+  "description": "Claude Code plugin that deploys a vibe-coded app on free tiers (Cloud Run, MongoDB Atlas, Cloudflare R2, Resend, Sentry, PostHog, UptimeRobot, Doppler) and publishes mobile apps to the App Store and Google Play. Works in Claude Code, Codex, Cursor and other Agent Skills tools.",
   "url": "https://koliasyniuha.github.io/free-stack-launch/",
   "downloadUrl": "https://github.com/koliasyniuha/free-stack-launch",
   "license": "https://opensource.org/licenses/MIT",
@@ -49,7 +49,9 @@
     { "@type": "Question", "name": "What happens when I outgrow the free tiers?",
       "acceptedAnswer": { "@type": "Answer", "text": "The plugin writes STACK.md in your repo. It lists each free limit, the sign that it is time to upgrade, and the next plan with its price." } },
     { "@type": "Question", "name": "How do I install it?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Run: claude plugin marketplace add koliasyniuha/free-stack-launch, then claude plugin install free-stack-launch@free-stack-launch. Then tell Claude Code: deploy a free stack for my app." } }
+      "acceptedAnswer": { "@type": "Answer", "text": "In Claude Code, run: claude plugin marketplace add koliasyniuha/free-stack-launch, then claude plugin install free-stack-launch@free-stack-launch. In Codex or Cursor, copy the skills/free-stack-launch folder from the GitHub repo into ~/.agents/skills/ and restart the agent. Then tell your agent: deploy a free stack for my app." } },
+    { "@type": "Question", "name": "Does Free Stack Launch work with Codex or Cursor?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The skill uses the open Agent Skills format (SKILL.md), which Codex, Cursor and many other agents read. Browser steps use the agent's own browser tool, or a guided mode with links when it has none." } }
   ]
 }
 </script>
@@ -143,6 +145,12 @@
   .install .ln + .ln { margin-top: 4px; }
   .install .nw { white-space: nowrap; }
   .install .p { color: var(--accent); user-select: none; }
+  .tabs { display: flex; gap: 2px; padding: 2px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px; min-width: 0; }
+  .tab { border: 0; background: transparent; color: var(--muted); font: 500 13px Geist, sans-serif; padding: 5px 10px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+  .install pre[data-pane="ag"] .ln { overflow-wrap: anywhere; }
+  .install pre[hidden] { display: none; }
   .copy { flex: none; height: 34px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); font: 600 13.5px Geist, sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: filter .15s; }
   .copy:hover { filter: brightness(1.08); }
   .copy.done { background: transparent; color: var(--accent); }
@@ -314,7 +322,10 @@
     h1 { font-size: 46px; }
     .lead { font-size: 17.5px; }
     .install pre { font-size: 12.5px; padding: 12px; }
-    .install-head { padding-left: 12px; }
+    .install-head { padding-left: 8px; }
+    .tab { padding: 5px 8px; font-size: 12.5px; }
+    .copy { padding: 0 10px; }
+    .copy span { display: none; }
     .receipt { padding: 24px 20px 34px; font-size: 12px; transform: rotate(1deg); }
     .r-row .k { width: 8.6ch; font-size: 10.5px; }
     .r-total b { font-size: 38px; }
@@ -362,12 +373,13 @@
   <div class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="eyebrow"><span class="pulse" aria-hidden="true"></span>Claude Code plugin · MIT · v0.3.0</span>
+        <span class="eyebrow"><span class="pulse" aria-hidden="true"></span>Skill for Claude Code, Codex, Cursor</span>
         <h1>Ship your app to production. <span class="acc">Pay&nbsp;$0.</span></h1>
         <p class="lead">One prompt sets up your server, database, files, email, errors, analytics and uptime, <b>all on free tiers</b>. It also gets your mobile app into the App Store and Google Play.</p>
         <div class="install" role="group" aria-label="Install commands">
-          <div class="install-head"><span>Install in your terminal</span><button class="copy" data-copy="claude plugin marketplace add koliasyniuha/free-stack-launch&#10;claude plugin install free-stack-launch@free-stack-launch" aria-label="Copy install commands"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg><span>Copy install</span></button></div>
-          <pre><code><span class="ln"><span class="p">$ </span>claude plugin marketplace add <span class="nw">koliasyniuha/free-stack-launch</span></span><span class="ln"><span class="p">$ </span>claude plugin install <span class="nw">free-stack-launch@free-stack-launch</span></span></code></pre>
+          <div class="install-head"><div class="tabs" role="tablist" aria-label="Choose your agent"><button class="tab" role="tab" aria-selected="true" data-tab="cc">Claude Code</button><button class="tab" role="tab" aria-selected="false" data-tab="ag">Codex · Cursor</button></div><button class="copy" aria-label="Copy install commands"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg><span>Copy install</span></button></div>
+          <pre data-pane="cc" data-copy="claude plugin marketplace add koliasyniuha/free-stack-launch&#10;claude plugin install free-stack-launch@free-stack-launch"><code><span class="ln"><span class="p">$ </span>claude plugin marketplace add <span class="nw">koliasyniuha/free-stack-launch</span></span><span class="ln"><span class="p">$ </span>claude plugin install <span class="nw">free-stack-launch@free-stack-launch</span></span></code></pre>
+          <pre data-pane="ag" hidden data-copy="git clone --depth 1 https://github.com/koliasyniuha/free-stack-launch.git /tmp/free-stack-launch&#10;mkdir -p ~/.agents/skills &amp;&amp; cp -R /tmp/free-stack-launch/skills/free-stack-launch ~/.agents/skills/"><code><span class="ln"><span class="p">$ </span>git clone --depth 1 https://github.com/koliasyniuha/free-stack-launch.git /tmp/free-stack-launch</span><span class="ln"><span class="p">$ </span>mkdir -p ~/.agents/skills &amp;&amp; cp -R /tmp/free-stack-launch/skills/free-stack-launch ~/.agents/skills/</span></code></pre>
         </div>
         <div class="hero-after">
           <span>Then say <span class="mono">"deploy a free stack for my app"</span></span>
@@ -546,7 +558,8 @@
         <details><summary>Does it need my passwords or card details?</summary><p>No. You create the accounts and sign in yourself. Tokens go straight into your secrets manager from the terminal, never into chat.</p></details>
         <details><summary>Which apps does it work with?</summary><p>Any app with a backend that fits in a container, such as Node, Python or Go servers. For mobile it supports Expo / React Native, Flutter and native Swift or Kotlin apps.</p></details>
         <details><summary>What happens when I outgrow the free tiers?</summary><p>Check <code>STACK.md</code> in your repo. It lists each free limit, the sign that it is time to upgrade, and the next plan with its price.</p></details>
-        <details><summary>How do I install it?</summary><p>Run <code>claude plugin marketplace add koliasyniuha/free-stack-launch</code>, then <code>claude plugin install free-stack-launch@free-stack-launch</code>. In your project, tell Claude Code: "deploy a free stack for my app".</p></details>
+        <details><summary>How do I install it?</summary><p>In Claude Code, run <code>claude plugin marketplace add koliasyniuha/free-stack-launch</code>, then <code>claude plugin install free-stack-launch@free-stack-launch</code>. In Codex or Cursor, copy the skill folder into <code>~/.agents/skills/</code> (pick the "Codex · Cursor" tab above) and restart the agent. Then tell your agent: "deploy a free stack for my app".</p></details>
+        <details><summary>Does it work with Codex or Cursor?</summary><p>Yes. The skill uses the open Agent Skills format (<code>SKILL.md</code>), which Codex, Cursor and many other agents read. Browser steps use your agent's own browser tool. If it has none, the skill gives you the link for each step and says what to click.</p></details>
       </div>
     </div>
   </section>
@@ -556,12 +569,13 @@
     <div class="wrap cta-in">
       <div>
         <h2>Your first bill: <span class="acc">$0.00.</span></h2>
-        <p class="sec-lead">Two commands, then one sentence to Claude Code. MIT-licensed, no account with us, nothing to pay.</p>
+        <p class="sec-lead">Two commands, then one sentence to your agent. MIT-licensed, no account with us, nothing to pay.</p>
       </div>
       <div>
         <div class="install" role="group" aria-label="Install commands">
-          <div class="install-head"><span>Install in your terminal</span><button class="copy" data-copy="claude plugin marketplace add koliasyniuha/free-stack-launch&#10;claude plugin install free-stack-launch@free-stack-launch" aria-label="Copy install commands"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg><span>Copy install</span></button></div>
-          <pre><code><span class="ln"><span class="p">$ </span>claude plugin marketplace add <span class="nw">koliasyniuha/free-stack-launch</span></span><span class="ln"><span class="p">$ </span>claude plugin install <span class="nw">free-stack-launch@free-stack-launch</span></span></code></pre>
+          <div class="install-head"><div class="tabs" role="tablist" aria-label="Choose your agent"><button class="tab" role="tab" aria-selected="true" data-tab="cc">Claude Code</button><button class="tab" role="tab" aria-selected="false" data-tab="ag">Codex · Cursor</button></div><button class="copy" aria-label="Copy install commands"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg><span>Copy install</span></button></div>
+          <pre data-pane="cc" data-copy="claude plugin marketplace add koliasyniuha/free-stack-launch&#10;claude plugin install free-stack-launch@free-stack-launch"><code><span class="ln"><span class="p">$ </span>claude plugin marketplace add <span class="nw">koliasyniuha/free-stack-launch</span></span><span class="ln"><span class="p">$ </span>claude plugin install <span class="nw">free-stack-launch@free-stack-launch</span></span></code></pre>
+          <pre data-pane="ag" hidden data-copy="git clone --depth 1 https://github.com/koliasyniuha/free-stack-launch.git /tmp/free-stack-launch&#10;mkdir -p ~/.agents/skills &amp;&amp; cp -R /tmp/free-stack-launch/skills/free-stack-launch ~/.agents/skills/"><code><span class="ln"><span class="p">$ </span>git clone --depth 1 https://github.com/koliasyniuha/free-stack-launch.git /tmp/free-stack-launch</span><span class="ln"><span class="p">$ </span>mkdir -p ~/.agents/skills &amp;&amp; cp -R /tmp/free-stack-launch/skills/free-stack-launch ~/.agents/skills/</span></code></pre>
         </div>
         <div class="hero-after"><a class="link-arrow" href="https://github.com/koliasyniuha/free-stack-launch">View source on GitHub →</a></div>
       </div>
@@ -581,10 +595,16 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.copy').forEach(function (b) {
-    var label = b.querySelector('span');
+  document.querySelectorAll('.install').forEach(function (box) {
+    var tabs = box.querySelectorAll('.tab');
+    var show = function (name) {
+      tabs.forEach(function (t) { t.setAttribute('aria-selected', String(t.getAttribute('data-tab') === name)); });
+      box.querySelectorAll('pre[data-pane]').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== name; });
+    };
+    tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.getAttribute('data-tab')); }); });
+    var b = box.querySelector('.copy'); var label = b.querySelector('span');
     b.addEventListener('click', function () {
-      var t = b.getAttribute('data-copy');
+      var t = box.querySelector('pre[data-pane]:not([hidden])').getAttribute('data-copy');
       var ok = function () { label.textContent = 'Copied'; b.classList.add('done'); setTimeout(function () { label.textContent = 'Copy install'; b.classList.remove('done'); }, 1600); };
       if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(ok, function () {}); }
       else { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); ok(); } catch (e) {} a.remove(); }
